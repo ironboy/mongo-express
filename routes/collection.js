@@ -107,7 +107,7 @@ exports.addCollection = function(req, res, next) {
 
     req.updateCollections(req.db, req.dbName, function() {
       req.session.success = 'Collection created!';
-      res.redirect(config.site.baseUrl+'db/' + req.dbName + '/' + name);
+      res.redirect('/db/' + req.dbName + '/' + name);
     });
   });
 };
@@ -131,7 +131,7 @@ exports.deleteCollection = function(req, res, next) {
       }
 
       req.session.success = "Collection  '" + req.collectionName + "' deleted!";
-      res.redirect(config.site.baseUrl+'db/' + req.dbName);
+      res.redirect('/db/' + req.dbName);
     });
   });
 };
@@ -153,19 +153,19 @@ exports.renameCollection = function(req, res, next) {
 
   req.collection.rename(name, function(err, collection) {
     if (err) {
-      req.session.error = 'Something went wrong: ' + err;
+      req.session.error('Something went wrong: ' + err);
       console.error(err);
       return res.redirect('back');
     }
 
     req.updateCollections(req.db, req.dbName, function(err) {
       if (err) {
-        req.session.error = 'Something went wrong: ' + err;
+        req.session.error('Something went wrong: ' + err);
         return res.redirect('back');
       }
 
-      req.session.success = 'Collection renamed!';
-      res.redirect(config.site.baseUrl+'db/' + req.dbName + '/' + name);
+      req.session.success('Collection renamed!');
+      res.redirect('/db/' + req.dbName + '/' + name);
     });
   });
 };
